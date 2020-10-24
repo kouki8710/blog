@@ -1,0 +1,29 @@
+.l-sidebar{
+
+
+    .sidebar-explain{
+        background-color: white;
+        p{
+            height: 4rem;
+            background-color: $base_color_lightblue;
+            color: white;
+            text-align: center;
+            line-height: 4rem;
+            font-size: 2rem;
+        }
+        .sidebar-explain-content{
+            display: flex;
+            img{
+                display: block;
+                width: 30%;
+                margin: 2rem 5%;
+            }
+            div{
+                width: 50%;
+                margin: 2rem 5%;
+                padding-top: 1.5rem;
+                line-height: 2rem;
+            }
+        }
+    }
+}

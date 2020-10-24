@@ -1,0 +1,39 @@
+.l-header{
+    background-color: white;
+}
+
+.header-title{
+    display: flex;
+    justify-content: center;
+}
+
+.header-title-logo{
+    width: 4rem;
+}
+
+.header-title-text{
+    margin: 3rem 5rem;
+    font-size: 3rem;
+}
+
+.header-nav ul{
+    display: flex;
+    justify-content: center;
+    li{
+        width: 20%;
+        text-align: center;
+        border: 1px solid black;
+        height: 4rem;
+        line-height: 4rem;
+        a{
+            display: block;
+            width: 100%;
+            height: 100%;
+            font-size: 1.2rem;
+        }
+    }
+    .material-icons{
+        margin-right: 1rem;
+    }
+}
+
