@@ -796,6 +796,9 @@ template {
 .content-home-rel_article-flex .content-home-rel_article-item img {
   display: block;
   width: 100%;
+  height: 15rem;
+  border: 1px #7e7e7e solid;
+  border-radius: 10px;
 }
 
 .content-home-rel_article-flex .content-home-rel_article-item p {

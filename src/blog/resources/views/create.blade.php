@@ -12,11 +12,23 @@
         <p>{{ $b["content"] }}</p>
         @endforeach
     </div>
-        <form action="/create" method="POST">
+
+        <form action="/create" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
+            <div>
+            <p>タイトル</p>
             <input type="text" name="title">
+            </div>
+            <div>
+            <p>本文</p>
             <textarea name="body"></textarea>
+            </div>
+            <div>
+            <p>アイキャッチ画像</p>
+            <input type="file" name="image">
+            </div>
             <input type="submit" value="送信">
         </form>
+
     </body>
 </html>
