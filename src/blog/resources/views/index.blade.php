@@ -44,6 +44,22 @@
                         <img src="{{ asset('img/fullimage/full3.jpg') }}">
                         <p>美しい夕焼けを見にいこう</p>
                     </a>
+                    <a class="content-home-rel_article-item" href="#">
+                        <img src="{{ asset('img/fullimage/full3.jpg') }}">
+                        <p>美しい夕焼けを見にいこう</p>
+                    </a>
+                    <a class="content-home-rel_article-item" href="#">
+                        <img src="{{ asset('img/fullimage/full3.jpg') }}">
+                        <p>美しい夕焼けを見にいこう</p>
+                    </a>
+                    <a class="content-home-rel_article-item" href="#">
+                        <img src="{{ asset('img/fullimage/full3.jpg') }}">
+                        <p>美しい夕焼けを見にいこう</p>
+                    </a>
+                    <a class="content-home-rel_article-item" href="#">
+                        <img src="{{ asset('img/fullimage/full3.jpg') }}">
+                        <p>美しい夕焼けを見にいこう</p>
+                    </a>
                 </div>
             </div>
             <div class="l-sidebar">

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BlogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [BlogController::class, 'index']);
+Route::get('/detail/{id}', [BlogController::class, 'detail']);
+Route::get('/create', [BlogController::class, 'create_get']);
+Route::post('/create',[BlogController::class,'create_post']);
