@@ -15,7 +15,7 @@ class BlogController extends Controller
 {
     function index()
     {
-        $articles = article::all();
+        $articles = article::orderby('created_at','desc')->get();
         return view('index',["articles"=>$articles]);
     }
 
@@ -37,7 +37,8 @@ class BlogController extends Controller
         $content = $_POST["body"];
 
         if (!$title or !$content){
-            return redirect('/create');
+            $msg = "タイトルと本文を入力してください。";
+            return view('create',compact("msg"));
         }
 
         $article = new article();
@@ -50,7 +51,53 @@ class BlogController extends Controller
         }
         $article->save();
 
-        return redirect('/create');
+        return view('create');
+    }
+
+    function admin()
+    {
+        return view('admin');
+    }
+
+    function read()
+    {
+        $articles = article::all();
+        return view('read',compact("articles"));
+    }
+
+    function update_get($id)
+    {
+        $article = article::find($id);
+        return view("update",compact("article"));
+    }
+
+    function update_post($id,Request $request)
+    {
+        $title = $_POST["title"];
+        $content = $_POST["body"];
+
+        if (!$title or !$content){
+            $msg = "タイトルと本文を入力してください。";
+            $article = article::find($id);
+            return view('update',compact("msg","article"));
+        }
+
+        $article = article::find($id);
+        $article->title = $title;
+        $article->content = $content;
+        if ($request->file("image")){
+            $file_extension = pathinfo($request->file('image')->getClientOriginalName())["extension"];
+            $path = $request->file("image")->storeas("public/eyecatch",UuidV4Factory::generate(). ".". $file_extension);
+            $article->eyecatch_path = str_replace('public/','storage/',$path);
+        }
+        $article->save();
+
+        return view("update",compact("article"));
+    }
+
+    function delete_get()
+    {
+        
     }
 }
 

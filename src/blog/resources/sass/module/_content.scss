@@ -45,62 +45,7 @@
             width: 100%;
         }   
     }
-
-    .content-index{
-        padding: 2rem 2rem 1rem;
-        margin: 3rem 0;
-        border-radius: 10px;
-        background-color: $base_color_gray;
-        .content-index-title{
-            font-size: 2rem;
-            img {
-                width: 3rem;
-                margin-right: 3rem;
-                vertical-align: middle;
-            }
-            span{
-                vertical-align: middle;
-            }
-        }
-
-        .content-index-list{
-            margin: 2rem;
-            list-style: disc;
-            li{
-                padding: 1rem 0;
-            }
-        }
-    }
-
-    .content-title-top_bottom_line{
-        position: relative;
-        font-size: 1.8rem;
-        padding: 1rem 0;
-        margin: 4rem 0;
-        background-color: $base_color_lightblue;
-        color: white;
-        text-align: center;
-        &::before{
-            content: "";
-            position: absolute;
-            display: block;
-            height: 5px;
-            width: 100%;
-            top: -10px;
-            left: 0;
-            background-color: $base_color_lightblue;
-        }
-        &::after{
-            position: absolute;
-            content: "";
-            display: block;
-            height: 5px;
-            width: 100%;
-            bottom: -10px;
-            left: 0;
-            background-color: $base_color_lightblue;
-        }
-    }
+    
     
     .content-rel_article{
         text-align: center;
@@ -176,6 +121,64 @@
             font-size: 1.5rem;
             font-weight: bold;
             line-height: 2rem;
+        }
+    }
+}
+
+.content-markdown{
+    .content-title-top_bottom_line,h1,h2{
+        position: relative;
+        font-size: 1.8rem;
+        padding: 1rem 0;
+        margin: 4rem 0;
+        background-color: $base_color_lightblue;
+        color: white;
+        text-align: center;
+        &::before{
+            content: "";
+            position: absolute;
+            display: block;
+            height: 5px;
+            width: 100%;
+            top: -10px;
+            left: 0;
+            background-color: $base_color_lightblue;
+        }
+        &::after{
+            position: absolute;
+            content: "";
+            display: block;
+            height: 5px;
+            width: 100%;
+            bottom: -10px;
+            left: 0;
+            background-color: $base_color_lightblue;
+        }
+    }
+
+    .content-index{
+        padding: 2rem 2rem 1rem;
+        margin: 3rem 0;
+        border-radius: 10px;
+        background-color: $base_color_gray;
+        .content-index-title{
+            font-size: 2rem;
+            img {
+                width: 3rem;
+                margin-right: 3rem;
+                vertical-align: middle;
+            }
+            span{
+                vertical-align: middle;
+            }
+        }
+
+        .content-index-list{
+            margin: 2rem;
+            list-style: disc;
+            li{
+                padding: 1rem 0;
+            }
         }
     }
 }
