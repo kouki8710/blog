@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\article;
 
+// 表示関数
 function p($item)
 {
     Log::debug($item);
@@ -38,7 +39,8 @@ class BlogController extends Controller
 
         if (!$title or !$content){
             $msg = "タイトルと本文を入力してください。";
-            return view('create',compact("msg"));
+            $status = 0;
+            return json_encode(compact("msg","status"));
         }
 
         $article = new article();
@@ -51,18 +53,13 @@ class BlogController extends Controller
         }
         $article->save();
 
-        return view('create');
+        return json_encode(["status"=>"success","msg"=>"保存に成功しました。","redirect"=>"/admin/"]);
     }
 
     function admin()
     {
-        return view('admin');
-    }
-
-    function read()
-    {
-        $articles = article::all();
-        return view('read',compact("articles"));
+        $articles = article::orderby('created_at','desc')->get();
+        return view('admin',compact("articles"));
     }
 
     function update_get($id)
@@ -79,7 +76,7 @@ class BlogController extends Controller
         if (!$title or !$content){
             $msg = "タイトルと本文を入力してください。";
             $article = article::find($id);
-            return view('update',compact("msg","article"));
+            return json_encode(compact("msg"));
         }
 
         $article = article::find($id);
@@ -92,12 +89,15 @@ class BlogController extends Controller
         }
         $article->save();
 
-        return view("update",compact("article"));
+        return json_encode(["msg"=>"ok"]);
     }
 
-    function delete_get()
+    function delete($id)
     {
-        
+        $article = article::find($id);
+        if (!$article) return \App::abort(404);
+        $article->delete();
+        return redirect("/admin/");
     }
 }
 

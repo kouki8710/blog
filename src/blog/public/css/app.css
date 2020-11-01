@@ -577,6 +577,10 @@ template {
   margin-top: 5rem;
 }
 
+.l-admin-content {
+  margin-top: 3rem;
+}
+
 .l-header {
   background-color: white;
 }
@@ -855,5 +859,41 @@ template {
   padding: 4rem 0;
   color: white;
   font-size: 1.2rem;
+}
+
+.admin-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.admin-content-title {
+  text-align: center;
+  margin: 5rem 0 3rem;
+  font-size: 4rem;
+}
+
+.admin-content-item {
+  width: 30%;
+  margin: 2rem 1.6%;
+  padding: 2rem 0;
+  background-color: white;
+}
+
+.admin-content-item a {
+  display: block;
+  width: 80%;
+  margin: auto;
+}
+
+.admin-content-item a img {
+  display: block;
+  width: 100%;
+  height: 15rem;
+  border: gray solid 1px;
+}
+
+.admin-content-item a p {
+  margin-top: 2rem;
+  font-size: 2rem;
 }
 

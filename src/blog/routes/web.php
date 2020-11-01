@@ -11,9 +11,12 @@ Route::prefix('admin')->group(function(){
     Route::get('/', [BlogController::class, 'admin']);
     Route::get('/create', [BlogController::class, 'create_get']);
     Route::post('/create',[BlogController::class,'create_post']);
-    Route::get('/read',[BlogController::class,'read']);
     Route::get('/update/{id}',[BlogController::class,'update_get']);
     Route::post('/update/{id}',[BlogController::class,'update_post']);
-    Route::get('/delete/{id}',[BlogController::class,'delete']);
+    Route::post('/delete/{id}',[BlogController::class,'delete']);
     
+});
+
+Route::get('/welcome',function(){
+    return view("welcome");
 });

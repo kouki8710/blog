@@ -9,9 +9,9 @@
     <body>
         <header class="l-header">
             <div class="header-title">
-                <img src="{{ asset('img/pen.svg') }}" alt="pen" class="header-title-logo">
+                <!-- <img src="{{ asset('img/pen.svg') }}" alt="pen" class="header-title-logo"> -->
                 <h1 class="header-title-text">K.Blog</h1>
-                <img src="{{ asset('img/pen.svg') }}" alt="pen" class="header-title-logo">
+                <!-- <img src="{{ asset('img/pen.svg') }}" alt="pen" class="header-title-logo"> -->
             </div>
             <nav class="header-nav">
                 <ul>
@@ -40,6 +40,7 @@
         </div>
         <footer class="l-footer">
             <p>© Copyright 2020 K.Bolg All rights reserved.</p>
+            <a href="/admin/">管理者ページへ移動</a>
         </footer>
     </body>
 </html>

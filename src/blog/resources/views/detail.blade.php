@@ -19,7 +19,7 @@
         <img src="{{ asset($article['eyecatch_path']) }}">
     </div>
     @endif
-    <div class="content-markdown">
+    <!-- <div class="content-markdown">
         <p>
             こんにちは！<br>
             これはテスト投稿です。
@@ -43,7 +43,7 @@
         <p>
             サイトを１から作る為にはデザイン、内容、文章力、構成、画像作成などコードを書くより前の作業が非常に多い。コードの練習と共にこれらもざっとやるのがいい。
         </p>
-    </div>
+    </div> -->
     <div class="content-markdown">
         {!! $article["content"] !!}
     </div>

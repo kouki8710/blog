@@ -30,6 +30,10 @@
             </div>
             <input type="submit" value="update">
         </form>
+        <form action="/admin/delete/{{ $article['id'] }}" method="POST">
+            @csrf
+            <input type="submit" value="delete">
+        </form>
     </div>
     </body>
 </html>
