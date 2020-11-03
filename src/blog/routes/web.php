@@ -3,22 +3,20 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', [BlogController::class, 'index']);
 Route::get('/detail/{id}', [BlogController::class, 'detail']);
-Route::get('/create', [BlogController::class, 'create_get']);
-Route::post('/create',[BlogController::class,'create_post']);
+
+// 管理関係 CRUD処理
+Route::prefix('admin')->group(function(){
+    Route::get('/', [BlogController::class, 'admin']);
+    Route::get('/create', [BlogController::class, 'create_get']);
+    Route::post('/create',[BlogController::class,'create_post']);
+    Route::get('/update/{id}',[BlogController::class,'update_get']);
+    Route::post('/update/{id}',[BlogController::class,'update_post']);
+    Route::post('/delete/{id}',[BlogController::class,'delete']);
+    
+});
+
+Route::get('/welcome',function(){
+    return view("welcome");
+});

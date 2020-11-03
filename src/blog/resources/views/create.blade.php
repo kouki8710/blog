@@ -3,32 +3,17 @@
         <meta charset="utf-8">
         <title>K.Blog | POST</title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> -->
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     </head>
     <body>
-    <div>
-        @foreach ($a as $b)
-        <p>{{ $b["content"] }}</p>
-        @endforeach
+    <div id="app">
+        <admin-header btnstatus="1"></admin-header>
+        <blogform></blogform>
     </div>
-
-        <form action="/create" method="POST" enctype="multipart/form-data">
-            {{ csrf_field() }}
-            <div>
-            <p>タイトル</p>
-            <input type="text" name="title">
-            </div>
-            <div>
-            <p>本文</p>
-            <textarea name="body"></textarea>
-            </div>
-            <div>
-            <p>アイキャッチ画像</p>
-            <input type="file" name="image">
-            </div>
-            <input type="submit" value="送信">
-        </form>
-
+    
+    <script src="{{ mix('js/app.js') }}"></script>
     </body>
 </html>
