@@ -16,9 +16,7 @@
 </script>
 
 <style lang="scss">
-$base_color_lightblue : #3AABD2;
-$base_color_gray : #F0F0F0;
-$base_color_blue : #6A86E6;
+@import "../base/_variavle";
 
 .admin-header{
     display: flex;

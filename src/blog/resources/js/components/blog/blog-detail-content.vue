@@ -1,3 +1,70 @@
+<template>
+<div class="l-content">
+    <h1 class="content-title-bottomline">{{ article.title }}</h1>
+    <div class="content-date-and-social">
+        <time datetime="2021-9-19"></time>
+        <div>
+            <p><img src="/img/Twitter_logo.png" alt="Twitter"></p>
+            <p><img src="/img/facebook_logo.png" alt="Facebook"></p>
+            <p><img src="/img/LINE_logo.png" alt="LINE"></p>
+        </div>
+    </div>
+    <div class="content-img" v-if="article.eyecatch_path != 'storage/eyecatch/no-image.png'">
+        <img :src="create_imageURL(article.eyecatch_path)">
+    </div>
+    <div class="content-markdown" v-html="article.content"></div>
+
+    <p class="content-rel_article">関連記事</p>
+    <div class="content-rel_article-flex">
+        <div class="content-rel_article-item">
+            <div><img src="/img/fullimage/full1.jpg"></div>
+            <p>美しい夕焼けを見にいこう</p>
+        </div>
+        <div class="content-rel_article-item">
+            <div><img src="/img/fullimage/full2.jpg"></div>
+            <p>美しい夕焼けを見にいこう</p>
+        </div>
+        <div class="content-rel_article-item">
+            <div><img src="/img/fullimage/full3.jpg"></div>
+            <p>美しい夕焼けを見にいこう</p>
+        </div>
+    </div>
+</div>
+</template>
+
+<script>
+
+export default {
+    data() {
+        return {
+            article : '',
+        }
+    },
+    mounted() {
+        let path = location.pathname;
+        let article_id = path.split("/").slice(-1)[0];
+        axios.get("/api/get_article/"+article_id).then(response=>{
+            this.article = response.data;
+        }).catch(response=>{
+            console.log(response);
+        })
+    },
+    methods : {
+        create_imageURL(imageURL){
+            return "/" + imageURL;
+        }
+    }
+}
+</script>
+
+<style lang="scss">
+@import "../base/_variavle";
+
+.l-content{
+    width: 60%;
+    margin: 3rem 5%;
+}
+
 .l-content{
     background-color: white;
     padding: 2rem 3rem;
@@ -74,63 +141,13 @@
     }
 }
 
-.content-home-recommend{
-    font-size: 2rem;
-    position: relative;
-    text-align: center;
-    .material-icons{
-        margin-right: 1rem;
-    }
-    // &::before{
-    //     content: "";
-    //     position: absolute;
-    //     width: 100%;
-    //     top: 50%;
-    //     left: 0;
-    //     z-index: -1;
-    //     border-bottom: 2px solid black;
-    // }
-    > span{
-        position: relative;
-        display: inline-block;
-        padding: 2rem;
-    }
-}
-
-.content-home-rel_article-flex{
-    display: flex;
-    flex-wrap: wrap;
-
-    .content-home-rel_article-item{
-        display: block;
-        width: 46%;
-        margin: 2rem 2% 0 2%;
-        padding: 1rem;
-        background-color: white;
-        border-radius: 10px;
-        img {
-            display: block;
-            width: 100%;
-            height: 15rem;
-            border: 1px #7e7e7e solid;
-            border-radius: 10px;
-        }
-        p{
-            margin-top: 1rem;
-            padding: 1rem;
-            font-size: 1.5rem;
-            font-weight: bold;
-            line-height: 2rem;
-        }
-    }
-}
 
 .content-markdown{
     .content-title-top_bottom_line,h1,h2{
         position: relative;
         font-size: 1.8rem;
         padding: 1rem 0;
-        margin: 4rem 0;
+        margin: 6rem 0 3rem;
         background-color: $base_color_lightblue;
         color: white;
         text-align: center;
@@ -154,6 +171,19 @@
             left: 0;
             background-color: $base_color_lightblue;
         }
+    }
+
+    p{
+        line-height: 2.5rem;
+    }
+
+    pre {
+        width: 100%;
+        padding: 1rem;
+        background: #364549;
+        color: white;
+        font-size: 1.2rem;
+        overflow-x: scroll;
     }
 
     .content-index{
@@ -182,3 +212,4 @@
         }
     }
 }
+</style>
