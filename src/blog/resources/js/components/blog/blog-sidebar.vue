@@ -1,6 +1,28 @@
+<template>
+<div class="l-sidebar">
+    <div class="sidebar-explain">
+        <p>K.Blogについて</p>
+        <div class="sidebar-explain-content">
+            <img src="/img/icon.png" alt="icon">
+            <div>このブログは僕がプログラミングの学習中に理解した内容を大雑把に書いていきます。</div>
+        </div>
+    </div>
+</div>
+</template>
+
+<script>
+
+</script>
+
+<style lang="scss" scoped>
+@import "../base/_variavle";
+
 .l-sidebar{
+    width: 25%;
+    margin: 5rem 5% 3rem 0;
+}
 
-
+.l-sidebar{
     .sidebar-explain{
         background-color: white;
         p{
@@ -27,3 +49,4 @@
         }
     }
 }
+</style>
