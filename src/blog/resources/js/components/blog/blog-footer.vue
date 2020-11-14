@@ -1,7 +1,6 @@
 <template>
 <footer class="l-footer">
     <p>© Copyright 2020 K.Bolg All rights reserved.</p>
-    <a href="/admin/">管理者ページへ移動</a>
 </footer>
 </template>
 

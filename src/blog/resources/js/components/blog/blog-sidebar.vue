@@ -50,3 +50,14 @@
     }
 }
 </style>
+
+<style lang="scss">
+@import "../base/_variavle";
+
+.l-sidebar{
+    @include mq(){
+        width: 90%!important;
+        margin: 5rem 5% 3rem!important;
+    }
+}
+</style>

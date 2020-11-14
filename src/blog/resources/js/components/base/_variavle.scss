@@ -1,3 +1,23 @@
 $base_color_lightblue : #3AABD2;
 $base_color_gray : #F0F0F0;
 $base_color_blue : #6A86E6;
+
+$breakpoints: (
+  'sm': 'screen and (max-width: 400px)',
+  'md': 'screen and (max-width: 768px)',
+  'lg': 'screen and (max-width: 1000px)',
+  'xl': 'screen and (max-width: 1200px)',
+) !default;
+
+@mixin mq($breakpoint: md) {
+    @media #{map-get($breakpoints, $breakpoint)} {
+        @content;
+    }
+}
+
+//スマホ用remのルート指定
+html{
+  @include mq(){
+    font-size: 10px;
+  }
+}

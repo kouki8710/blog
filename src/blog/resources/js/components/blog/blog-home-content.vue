@@ -21,7 +21,7 @@ export default {
     },
 
     mounted() {
-        axios.get("/api/get_all_articles").then(response=>{
+        axios.get("/api/get_all_recommend_articles").then(response=>{
             let data = response.data;
             this.articles = data.articles;
             let base_path = location.protocol + "//" + location.host;
@@ -66,6 +66,7 @@ export default {
         padding: 1rem;
         background-color: white;
         border-radius: 10px;
+        transition: all 300ms 0s ease;
         img {
             display: block;
             width: 100%;
@@ -79,6 +80,30 @@ export default {
             font-size: 1.5rem;
             font-weight: bold;
             line-height: 2rem;
+        }
+
+        &:hover{
+            background: $base_color_lightblue;
+            color: white;
+        }
+    }
+}
+</style>
+
+<style lang="scss">
+@import "../base/_variavle";
+
+.l-content-home{
+    @include mq(){
+        width: 90%!important;
+
+        .content-home-rel_article-flex{
+            display: block!important;
+
+            .content-home-rel_article-item{
+                width: 90%!important;
+                margin: 2rem 5% 0!important;
+            }
         }
     }
 }

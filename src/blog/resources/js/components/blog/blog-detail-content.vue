@@ -1,8 +1,11 @@
 <template>
 <div class="l-content">
     <h1 class="content-title-bottomline">{{ article.title }}</h1>
+    <div class="content-tag-list">
+        <a class="content-tag-item" v-for="tag in article.tags" href="#">{{tag.name}}</a>
+    </div>
     <div class="content-date-and-social">
-        <time datetime="2021-9-19"></time>
+        <time v-bind:datetime="format_date(article.updated_at)">{{format_date(article.updated_at)}}</time>
         <div>
             <p><img src="/img/Twitter_logo.png" alt="Twitter"></p>
             <p><img src="/img/facebook_logo.png" alt="Facebook"></p>
@@ -16,28 +19,24 @@
 
     <p class="content-rel_article">関連記事</p>
     <div class="content-rel_article-flex">
-        <div class="content-rel_article-item">
-            <div><img src="/img/fullimage/full1.jpg"></div>
-            <p>美しい夕焼けを見にいこう</p>
-        </div>
-        <div class="content-rel_article-item">
-            <div><img src="/img/fullimage/full2.jpg"></div>
-            <p>美しい夕焼けを見にいこう</p>
-        </div>
-        <div class="content-rel_article-item">
-            <div><img src="/img/fullimage/full3.jpg"></div>
-            <p>美しい夕焼けを見にいこう</p>
-        </div>
+        <blog-rel-card v-for="blogRelCard in blogRelCards" 
+        :key="blogRelCard.id"
+        :article="blogRelCard"></blog-rel-card>
     </div>
 </div>
 </template>
 
 <script>
+import blogrelcard from "./blog-rel-card.vue";
 
 export default {
+    components: {
+        'blog-rel-card': blogrelcard,
+    },
     data() {
         return {
             article : '',
+            blogRelCards: [],
         }
     },
     mounted() {
@@ -47,12 +46,33 @@ export default {
             this.article = response.data;
         }).catch(response=>{
             console.log(response);
-        })
+        });
+        axios.get("/api/get_relative_articles/"+article_id).then(response=>{
+            this.blogRelCards = response.data.articles;
+            this.blogRelCards.forEach(article => {
+                article.url = "/detail/" + article.id;
+            });
+        }).catch(response=>{
+            console.log(response);
+        });
     },
     methods : {
         create_imageURL(imageURL){
-            return "/" + imageURL;
-        }
+            if (imageURL){
+                return "/" + imageURL;
+            }else{
+                return "";
+            }
+            
+        },
+        format_date(date){
+            if (date){
+                let formated = date.substring(0,10);
+                return formated;
+            }else{
+                return "";
+            }
+        },
     }
 }
 </script>
@@ -80,7 +100,7 @@ export default {
     }
 
     .content-title-bottomline{
-        font-size: 3rem;
+        font-size: 2.5rem;
         padding: 2rem 0;
         border-bottom: 5px solid $base_color_lightblue;
     }
@@ -124,19 +144,18 @@ export default {
 
     .content-rel_article-flex{
         display: flex;
+    }
 
-        .content-rel_article-item{
-            width: 30%;
-            margin: 2rem 3%;
-            img{
-                width: 100%;
-            }
-            p{
-                margin-top: 1rem;
-                font-size: 1.5rem;
-                font-weight: bold;
-                line-height: 2rem;
-            }
+    .content-tag-list{
+        display: flex;
+        flex-wrap: wrap;
+        .content-tag-item{
+            display: block;
+            background: $base_color_lightblue;
+            border-radius: 2px;
+            margin: 1rem;
+            padding: 0.5rem 1rem;
+            color: white;
         }
     }
 }
@@ -180,6 +199,7 @@ export default {
     pre {
         width: 100%;
         padding: 1rem;
+        margin: 1rem 0;
         background: #364549;
         color: white;
         font-size: 1.2rem;
@@ -209,6 +229,22 @@ export default {
             li{
                 padding: 1rem 0;
             }
+        }
+    }
+
+    
+}
+</style>
+
+<style lang="scss">
+@import "../base/_variavle";
+
+.l-content{
+    @include mq(){
+        width: 90%!important;
+
+        .content-rel_article-flex{
+            display: block!important;
         }
     }
 }

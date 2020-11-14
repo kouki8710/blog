@@ -16,3 +16,14 @@
     display: flex;
 }
 </style>
+
+<style lang="scss">
+@import "../base/_variavle";
+
+.l-main{
+    @include mq(){
+        display: block!important;
+    }
+}
+
+</style>

@@ -20,7 +20,7 @@ export default {
         }
     },
     mounted() {
-        axios.get("/api/get_all_articles").then(response=>{
+        axios.get("/api/get_all_new_articles").then(response=>{
             let data = response.data;
             this.articles = data.articles;
             let base_path = location.protocol + "//" + location.host;

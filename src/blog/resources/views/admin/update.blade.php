@@ -11,7 +11,7 @@
     
     <div id="app">
         <admin-header btnstatus="1"></admin-header>
-        <blogform></blogform>
+        <admin-blogform></admin-blogform>
     </div>
     
     <script src="{{ mix('js/app.js') }}"></script>

@@ -6,10 +6,10 @@
         <nav class="header-nav">
             <ul>
             <li><a href="/"><span class="material-icons">home</span>Top</a></li>
-            <li><a href="/making"><span class="material-icons">new_releases</span>New</a></li>
-            <li><a href="/making"><span class="material-icons">collections</span>Gallery</a></li>
-            <li><a href="/making"><span class="material-icons">perm_identity</span>Profile</a></li>
-            <li><a href="/making"><span class="material-icons">add_ic_call</span>Contact</a></li>
+            <li><a href="/new"><span class="material-icons">new_releases</span>New</a></li>
+            <li><a href="/making"><span class="material-icons">menu_book</span>Category</a></li>
+            <!-- <li><a href="/profile"><span class="material-icons">perm_identity</span>Profile</a></li> -->
+            <!-- <li><a href="/admin"><span class="material-icons">settings</span>Admin</a></li> -->
             </ul>
         </nav>
     </header>
@@ -41,13 +41,19 @@
     font-size: 3rem;
 }
 
+.header-nav{
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
 .header-nav ul{
     display: flex;
     justify-content: center;
     li{
         width: 20%;
         text-align: center;
-        border: 1px solid black;
+        border-right: 1px solid black;
+        border-left: 1px solid black;
         height: 4rem;
         line-height: 4rem;
         transition: all 300ms 0s ease;
@@ -62,9 +68,31 @@
             color: white;
         }
     }
+
+    li + li{
+        border-left: none;
+    }
+
     .material-icons{
         margin-right: 1rem;
     }
     
 }
+
+</style>
+
+
+<style lang="scss">
+@import "../base/_variavle";
+
+.header-nav ul{
+    li{
+        @include mq(){
+            .material-icons{
+                display: none!important;
+            }
+        }
+    }
+}
+
 </style>

@@ -7,24 +7,42 @@
                 
                 <div class="admin-markdown-side-inner-eyecatch">
                     <h2>アイキャッチ画像</h2>
-                    <label class="admin-markdown-eyecatch">
+                    <div v-show="show_option_eyecatch">
+                        <label class="admin-markdown-eyecatch">
                         画像を選択
                         <input type="file" name="image" @change='update_eyecatch'>
-                    </label>
-                    <p>画像</p>
-                    <div><img class="image-preview"></div>
+                        </label>
+                        <p>画像</p>
+                        <div><img class="image-preview"></div>
+                    </div>
+                    
                 </div>
                 <div class="admin-markdown-side-inner-open">
                     <h2>公開設定</h2>
-                    <select v-model='is_open'>
-                        <option value="open" selected>公開</option>
-                        <option value="unopen">非公開</option>
-                    </select>
+                    <div class="select-wrap">
+                        <select v-model='is_open'>
+                            <option value="public" selected>公開</option>
+                            <option value="private">非公開</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="admin-markdown-side-inner-tag">
+                    <h2>タグ設定</h2>
+                    <input type="text" autocomplete="on" list="admin-tag" v-model="input_tag_name">
+                    <datalist id="admin-tag">
+                        <option v-for="tag in all_tag_list" :value="tag.name">{{tag.name}}</option>
+                    </datalist>
+                    <button class="side-inner-tag-add-btn" @click="add_tag()">追加</button>
+                    <div class="side-inner-selected_tag_list" v-for="tag in selected_tag_list">
+                        <span>{{tag.name}}</span>
+                        <button @click="delete_tag(tag)">×</button>
+                    </div>
                 </div>
             </div>
         </div>
     </transition>
-    
+
     <div class="admin-markdown-title">
         <p>タイトル</p>
         <input type="text" name="title" placeholder="タイトルを入力" autocomplete="off" v-model='title'>
@@ -34,7 +52,7 @@
     </div>
     <div class="admin-markdown-container">
         <div class="admin-markdown-textarea">
-        <textarea class="form_textarea" placeholder="本文を入力" v-model="body"></textarea>
+        <textarea class="form_textarea" placeholder="本文を入力" v-model="body" @input="auto_scroll()"></textarea>
         </div>
         <div id="IDDivHtmlArea" class="admin-markdown-content content-markdown" v-html='markdown'></div>
     </div>
@@ -53,8 +71,6 @@
     function create_index(str){
         str = str.replace(/@index/,(match)=>{
             let index_text = "";
-            console.log(str);
-            console.log("ue");
             str.match(/<h2.*?>.*?<\/h2>/g).forEach((match)=>{
                 index_text += "<li>"+match.replace(/^<h2.*?>/,"").replace(/<\/h2>$/,"")+"</li>";
             });
@@ -79,17 +95,22 @@
                 'eyecatch':null,
                 'eyecatch_path':'storage/eyecatch/no-image.png',
                 'is_sideshow':false,
-                'is_open':'',
+                'is_open':'public',
+                'all_tag_list': [],
+                'selected_tag_list': [],
+                'input_tag_name': "",
+                'show_option_eyecatch': 1,
             }
         },
         methods: {
             send() {
                 let formdata = new FormData();
                 formdata.append('title',this.title);
-                formdata.append('body',create_index(marked(this.body)));
+                formdata.append('body',this.markdown);
                 formdata.append('image',this.eyecatch);
                 formdata.append('row_content',this.body);
                 formdata.append('is_open',this.is_open);
+                formdata.append('tags',JSON.stringify(this.selected_tag_list));
                 let config = {
                     "header": {
                         'content-type': 'multipart/form-data',
@@ -112,10 +133,11 @@
                         alert(response.data.msg);
                     }
                     
-                }).catch(response=> {
+                }).catch(response => {
                     alert("保存に失敗しました。");
                 });
             },
+
             update_eyecatch(e) {
                 this.eyecatch = e.target.files[0];
                 let reader = new FileReader();
@@ -124,6 +146,7 @@
                 }
                 reader.readAsDataURL(e.target.files[0]);
             },
+
             delete_article() {
                 let ret = confirm("この記事を削除します。本当によろしいですか？");
                 if (ret == true){
@@ -139,10 +162,56 @@
                     })
                 }
             },
+
+            auto_scroll (){
+                let textarea = $("#IDDivHtmlArea");
+                let error = 10;
+                let threshold = textarea[0].scrollHeight - textarea[0].clientHeight - error;
+                if (textarea[0].scrollTop >= threshold){
+                    textarea.animate({scrollTop:$("#IDDivHtmlArea")[0].scrollHeight},'fast');
+                }
+            },
+
+            add_tag (){
+                let flag = 1;
+                this.all_tag_list.forEach(tag=>{
+                    if (tag.name==this.input_tag_name){
+                        let is_selected = 0;
+                        this.selected_tag_list.forEach(selected_tag=>{
+                            if (selected_tag.name==tag.name){
+                                is_selected = 1;
+                            }
+                        });
+                        if (is_selected == 1){
+                            flag = 2;
+                        }else{
+                            this.selected_tag_list.push(tag);
+                            flag = 0;
+                        }
+                    }
+                });
+
+                switch (flag){
+                    case 2:
+                        alert("このタグは既に選択されています");
+                        break;
+                    case 1:
+                        alert("このタグは存在しません");
+                        break;
+                    case 0:
+                        break;//成功
+                }
+                this.input_tag_name = "";
+            },
+
+            delete_tag(tag){
+                this.selected_tag_list = this.selected_tag_list.filter(t => t!=tag);
+            },
+
         },
         computed: {
             markdown() {
-                return  create_index(marked(this.body));
+                return  create_index(create_break(marked(this.body)));
             },
         },
         mounted() {
@@ -150,12 +219,14 @@
             if (path.match(/update\/[0-9]+/)){
                 this.article_id = path.split("/").slice(-1)[0];
                 axios.get("/api/get_article/"+this.article_id).then(response=>{
+                    console.log(response.data);
                     this.title = response.data.title;
                     this.body = response.data.row_content;
                     this.eyecatch_path = response.data.eyecatch_path;
+                    this.is_open = response.data.is_open==true ? "public" : "private";
+                    this.selected_tag_list = response.data.tags || [];
                     let imageURL = window.location.protocol + '//' + window.location.host + "/" +this.eyecatch_path;
                     $(".image-preview").attr("src",imageURL);
-                    console.log(response.data);
                 }).catch(response=>{
                     alert("データ取得中にエラーが発生しました。");
                     console.log(response);
@@ -164,9 +235,13 @@
                 let imageURL = window.location.protocol + '//' + window.location.host + "/" +this.eyecatch_path;
                 $(".image-preview").attr("src",imageURL);
             }
+
+            axios.get("/api/get_tags").then(response=>{
+                this.all_tag_list = response.data.tags;
+            });
             
             marked.setOptions({
-                breaks : true,
+                breaks : false,
                 langPrefix: '',
                 highlight: function(code, lang) {
                     return hljs.highlightAuto(code, [lang]).value;
@@ -175,6 +250,8 @@
         }
     }
 </script>
+
+
 
 <style src='highlightjs/styles/night-owl.css'></style>
 
@@ -286,15 +363,20 @@
     display: block;
     width: 60%;
     padding: 1rem 2rem;
-    margin: 2rem 1rem;
-    background: orange; 
+    margin: 2rem 0;
+    border: 2px solid orange;
+    background: white;
     border-radius: 10px;
-    color: white;
+    color: black;
+    transition: all .3s 0s ease;
     input {
         display: none;
     }
     &:hover{
         cursor: pointer;
+        background: orange;
+        color: white;
+        border: 2px solid white;
     }
 }
 
@@ -311,16 +393,28 @@
         height: 100%;
         overflow: auto;
         overflow-x: hidden;
-        background: #0DCEA8;
+        background: #e6e6fa;
+        border: 2px solid gray;
+
+        h2{
+            font-size: 1.5rem;
+            border-bottom: black solid 2px;
+        }
+
         .admin-markdown-side-inner-close{
             text-align: right;
             button{
                 color: red;
                 background: white;
                 padding: 0.3rem 0.5rem;
-                margin: 1rem 2rem 1rem 0;
+                margin: 1rem 2rem;
                 border-radius: 10px;
                 font-size: 2rem;
+                transition: all .3s 0s ease;
+                &:hover{
+                    color: white;
+                    background: red;
+                }
             }
             
         }
@@ -328,19 +422,47 @@
         .admin-markdown-side-inner-eyecatch{
             margin: 2rem;
 
-            h2{
-                font-size: 1.5rem;
-                border-bottom: black solid 2px;
-            }
-
             img{
                 width: 100%;
+                height: auto;
             }
 
             p{
                 font-size: 1.2rem;
                 margin:1rem;
                 text-align: center;
+            }
+        }
+
+        .admin-markdown-side-inner-open{
+            margin: 2rem;
+            select{
+                width: 100%;
+                padding: 1rem 2rem;
+                background: white;
+                color: black;
+                z-index: 1;
+            }
+            .select-wrap{
+                position:relative;
+                display: inline-block;
+                width: 100%;
+                margin: 2rem 0;
+                border: 2px solid gray;
+            }
+            .select-wrap::after{
+                content: '';
+                width: 20px;
+                height: 20px;
+                border: 0px;
+                border-bottom: solid 2px black;
+                border-right: solid 2px black;
+                -ms-transform: rotate(45deg);
+                -webkit-transform: rotate(45deg);
+                transform: rotate(45deg);
+                position: absolute;
+                top: 20%;
+                right: 2rem;
             }
         }
     }
@@ -360,8 +482,37 @@
     }
 }
 
-.admin-markdown-side-inner-open{
+.admin-markdown-side-inner-tag{
+    width: 80%;
+    margin: 2rem auto;
+    input {
+        background: white;
+        padding: 1rem;
+        width: 100%;
+    }
 
+    .side-inner-tag-add-btn{
+        background: yellow;
+        padding: 1rem 2rem;
+        margin: 1rem;
+    }
+
+    .side-inner-selected_tag_list{
+        position: relative;
+        font-size: 1rem;
+        background: white;
+        padding: 1rem;
+        margin: 1rem 0;
+        button{
+            position: absolute;
+            background: orange;
+            color: white;
+            padding: 0.5rem 0.7rem;
+            right: 1rem;
+            top: calc(50% - 1rem);
+            &:hover{opacity:0.5;}
+        }
+    }
 }
 
 </style>

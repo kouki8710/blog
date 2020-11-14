@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\article;
 
+use Illuminate\Support\Facades\Auth;
+
 // 表示関数
 function p($item)
 {
@@ -15,37 +17,24 @@ function p($item)
 
 class BlogController extends Controller
 {
-    function index()
+    function index(Request $request)
     {
-        return view('index');
+        return view('blog.index');
+    }
+
+    function new()
+    {
+        return view('blog.new');
     }
 
     function detail($id){
         $article = article::find($id);
         if (!$article) return \App::abort(404);
-        return view('detail',["article"=>$article]);
+        return view('blog.detail',["article"=>$article]);
     }
 
     function making(){
-        return view("making");
-    }
-
-    function create_get()
-    {
-        return view('create');
-    }
-
-    
-    function admin()
-    {
-        return view('admin');
-    }
-
-    function update_get($id)
-    {
-        return view("update");
-    }
-
-    
+        return view("blog.making");
+    }    
 }
 

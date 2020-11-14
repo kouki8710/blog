@@ -4,6 +4,7 @@
         <h1 class="admin-header-logo"><a href="/admin/">K.blog admin</a></h1>
         <div class="admin-header-container">
             <button class="admin-header-create-btn" onclick="location='/admin/create/'" v-if="btnstatus=='1'">Create</button>
+            <button class="admin-header-create-btn" onclick="location='/admin/create/tag'" v-if="btnstatus=='1'">CreateTag</button>
         </div>
     </div>
 </header>
@@ -36,7 +37,7 @@
     .admin-header-create-btn{
         height: 3rem;
         margin: 1rem;
-        padding: 0 2em;
+        padding: 0 2rem;
         background: orange;/*ボタン色*/
         
         color: #FFF;
@@ -49,6 +50,25 @@
             -webkit-transform: translateY(4px);
             transform: translateY(4px);
             border-bottom: none;
+        }
+    }
+}
+</style>
+
+<style lang="scss">
+@import "../base/_variavle";
+
+.admin-header{
+    @include mq(){
+        .admin-header-logo{
+            font-size: 2rem!important;
+        }
+        .admin-header-create-btn{
+            padding: 0 1rem!important;
+        }
+
+        .admin-header-container{
+            margin: 0 1rem 0 auto!important;
         }
     }
 }
