@@ -44,7 +44,7 @@ class BlogAPI extends Controller
     //関係記事取得
     public function get_relative_articles($id)
     {
-        $articles = article::where('id','!=',$id)->orderby("created_at","desc")->take(3)->get();
+        $articles = article::where('id','!=',$id)->where("is_open",1)->orderby("created_at","desc")->take(3)->get();
         return json_encode(compact("articles"));
     }
 
