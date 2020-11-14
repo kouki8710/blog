@@ -4,7 +4,7 @@ services:
 
  app:
    ports:
-     - "8000:80"
+     - "${APP_PORT}:80"
    build:
     context: .
     dockerfile: ./docker/app/DockerFile
@@ -16,10 +16,10 @@ services:
    image: mysql:5.7
    container_name: laravel_db
    environment:
-     MYSQL_ROOT_PASSWORD: root
-     MYSQL_DATABASE: laravel_db
-     MYSQL_USER: local_user
-     MYSQL_PASSWORD: local_user
+     MYSQL_ROOT_PASSWORD: ${ROOTPASS}
+     MYSQL_DATABASE: ${DATABASE}
+     MYSQL_USER: ${DATABASE_USER}
+     MYSQL_PASSWORD:  ${DATABASE_USER_PASS}
      TZ: 'Asia/Tokyo'
    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
    volumes:

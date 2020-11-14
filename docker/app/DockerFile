@@ -20,3 +20,13 @@ RUN apt-get install -y nodejs
 
 RUN mv /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled
 RUN /bin/sh -c a2enmod rewrite
+
+RUN cd /var/www/html/blog/
+RUN npm install
+RUN composer install
+
+RUN chown -R www-data:www-data /var/www/html/blog/storage
+RUN chmod -R 770 /var/www/html/blog/storage
+
+RUN php artisan migrate
+RUN php artisan storage:link

@@ -3,6 +3,12 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Log;
+
+function p($item)
+{
+    Log::debug($item);
+}
 
 class Authenticate extends Middleware
 {
