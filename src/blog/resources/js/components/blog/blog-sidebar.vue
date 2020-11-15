@@ -38,6 +38,7 @@
             img{
                 display: block;
                 width: 30%;
+                height: 30%;
                 margin: 2rem 5%;
             }
             div{
