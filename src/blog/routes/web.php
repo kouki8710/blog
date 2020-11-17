@@ -5,6 +5,10 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BlogAPI;
 use App\Http\Controllers\AdminController;
 
+if(config('app.env') === 'production'){
+    URL::forceScheme('https');
+}
+
 Route::get('/', [BlogController::class, 'index'])->name("index");
 Route::get('/new', [BlogController::class, 'new']);
 Route::get('/detail/{id}', [BlogController::class, 'detail']);
